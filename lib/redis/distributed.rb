@@ -30,6 +30,10 @@ class Redis
       @ring.nodes
     end
 
+    def buckets
+      @ring.buckets
+    end
+
     def add_node(url)
       @ring.add_node Redis.connect(@default_options.merge(:url => url))
     end
