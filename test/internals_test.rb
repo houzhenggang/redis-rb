@@ -148,7 +148,11 @@ if driver == :ruby || driver == :hiredis
       redis = Redis.connect(:port => 6380, :timeout => 0.1)
 
       begin
-        assert_raise(Errno::EAGAIN) { redis.ping }
+        if RUBY_PLATFORM.downcase.include?("freebsd")
+          assert "PONG" ==  redis.ping
+        else
+          assert_raise(Errno::EAGAIN) { redis.ping }
+        end
       ensure
         # Explicitly close connection so nc can quit
         redis.client.disconnect

@@ -26,7 +26,7 @@ test "allows clustering of keys" do |r|
     r.set "{foo}users:#{i}", i
   end
 
-  assert [0, 100] == r.nodes.map { |node| node.keys.size }
+  assert [100, 0] == r.nodes.map { |node| node.keys.size }
 end
 
 test "distributes keys if no clustering is used" do |r|
@@ -36,7 +36,7 @@ test "distributes keys if no clustering is used" do |r|
   r.set "users:1", 1
   r.set "users:4", 4
 
-  assert [1, 1] == r.nodes.map { |node| node.keys.size }
+  assert [2, 0] == r.nodes.map { |node| node.keys.size }
 end
 
 test "allows passing a custom tag extractor" do |r|
@@ -48,5 +48,5 @@ test "allows passing a custom tag extractor" do |r|
     r.set "foo:users:#{i}", i
   end
 
-  assert [0, 100] == r.nodes.map { |node| node.keys.size }
+  assert [100, 0] == r.nodes.map { |node| node.keys.size }
 end
